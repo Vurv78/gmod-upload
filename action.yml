@@ -20,8 +20,12 @@ runs:
     - uses: actions/checkout@master
 
     # Download SteamCMD
-    - run: sudo apt-get install steamcmd -y
-      shell: bash
+    - run: |
+      sudo add-apt-repository multiverse
+      sudo dpkg --add-architecture i386
+      sudo apt update
+      sudo apt install lib32gcc-s1 steamcmd -y
+    shell: bash
 
     # Download Lua 5.3
     - run: sudo apt-get install lua5.3
