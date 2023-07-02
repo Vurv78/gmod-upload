@@ -17,22 +17,27 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
 
-    - name: Download SteamCMD
-      run: sudo apt-get install steamcmd -y
+    # Download SteamCMD
+    - run: sudo apt-get install steamcmd -y
+      shell: bash
 
-    - name: Download Lua 5.3
-      run: sudo apt-get install lua5.3
+    # Download Lua 5.3
+    - run: sudo apt-get install lua5.3
+      shell: bash
 
-    - name: Run .gma packer
-      run: gma.lua ${{ inputs.id }}.gma ${{ inputs.config }}
+    # Run .gma packer
+    - run: gma.lua ${{ inputs.id }}.gma ${{ inputs.config }}
+      shell: bash
 
-    - name: Create .vdf file
-      run: echo \"workshopitem\" { \"appid\" \"4000\" \"publishedfileid\" \"${{ inputs.id }}\" \"contentfolder\" \"${{ inputs.id }}.gma\" \"changenote\" \"${{ inputs.changelog }}\" } > workshop.vdf
+    # Create .vdf file
+    - run: echo \"workshopitem\" { \"appid\" \"4000\" \"publishedfileid\" \"${{ inputs.id }}\" \"contentfolder\" \"${{ inputs.id }}.gma\" \"changenote\" \"${{ inputs.changelog }}\" } > workshop.vdf
+      shell: bash
 
-    - name: Run SteamCMD
-      run: steamcmd +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
+    # Run SteamCMD
+    - run: steamcmd +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
+      shell: bash
 
     - name: Print Errors
       if: failure()
@@ -47,3 +52,4 @@ runs:
         echo "$(cat /home/steam/Steam/workshopbuilds/depot_build_4000.log)"
 
         exit 1
+      shell: bash
