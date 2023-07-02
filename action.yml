@@ -1,0 +1,49 @@
+name: "gmod-upload"
+description: "Packs a Garry's Mod addon to a .gma file and uploads to the Steam workshop"
+
+inputs:
+  changelog:
+    description: "Changelog"
+    required: false
+    default: ""
+  id:
+    description: "Workshop item id"
+    required: true
+  config:
+    description: "Path of addon.json, or json file to treat as such."
+    required: false
+    default: "addon.json"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+
+    - name: Download SteamCMD
+      run: sudo apt-get install steamcmd -y
+
+    - name: Download Lua 5.3
+      run: sudo apt-get install lua5.3
+
+    - name: Run .gma packer
+      run: gma.lua ${{ inputs.id }}.gma ${{ inputs.config }}
+
+    - name: Create .vdf file
+      run: echo \"workshopitem\" { \"appid\" \"4000\" \"publishedfileid\" \"${{ inputs.id }}\" \"contentfolder\" \"${{ inputs.id }}.gma\" \"changenote\" \"${{ inputs.changelog }}\" } > workshop.vdf
+
+    - name: Run SteamCMD
+      run: steamcmd +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
+
+    - name: Print Errors
+      if: failure()
+      run: |
+        echo /home/steam/Steam/logs/stderr.txt
+        echo "$(cat /home/steam/Steam/logs/stderr.txt)"
+        echo
+        echo /home/steam/Steam/logs/workshop_log.txt
+        echo "$(cat /home/steam/Steam/logs/workshop_log.txt)"
+        echo
+        echo /home/steam/Steam/workshopbuilds/depot_build_4000.log
+        echo "$(cat /home/steam/Steam/workshopbuilds/depot_build_4000.log)"
+
+        exit 1
