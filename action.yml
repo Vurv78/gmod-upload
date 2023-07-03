@@ -23,8 +23,8 @@ runs:
       shell: bash
       run: |
         sudo apt-get install lib32gcc-s1
-        mkdir ~/Steam && cd ~/Steam
-        curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
+        mkdir ~/Steam
+        curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf - -C ~/Steam
 
     - name: Download Lua 5.3
       shell: bash
@@ -44,19 +44,19 @@ runs:
     - name: Run SteamCMD
       shell: bash
       run: |
-        steamcmd +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
+        ~/Steam/steamcmd.sh +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
 
     - name: Print Errors
       if: failure()
       shell: bash
       run: |
-        echo /home/steam/Steam/logs/stderr.txt
-        echo "$(cat /home/steam/Steam/logs/stderr.txt)"
+        echo ~/Steam/logs/stderr.txt
+        echo "$(cat ~/Steam/logs/stderr.txt)"
         echo
-        echo /home/steam/Steam/logs/workshop_log.txt
-        echo "$(cat /home/steam/Steam/logs/workshop_log.txt)"
+        echo ~/Steam/logs/workshop_log.txt
+        echo "$(cat ~/Steam/logs/workshop_log.txt)"
         echo
-        echo /home/steam/Steam/workshopbuilds/depot_build_4000.log
-        echo "$(cat /home/steam/Steam/workshopbuilds/depot_build_4000.log)"
+        echo ~/Steam/workshopbuilds/depot_build_4000.log
+        echo "$(cat ~/Steam/workshopbuilds/depot_build_4000.log)"
 
         exit 1
