@@ -39,7 +39,15 @@ runs:
     - name: Create .vdf file
       shell: bash
       run: |
-        echo \"workshopitem\" { \"appid\" \"4000\" \"publishedfileid\" \"${{ inputs.id }}\" \"contentfolder\" \"${{ inputs.id }}.gma\" \"changenote\" \"${{ inputs.changelog }}\" } > workshop.vdf
+        cat > workshop.vdf << EOF
+          "workshopitem" {
+            "appid" "4000"
+            "publishedfileid" "${{ inputs.id }}"
+            "contentfolder" "${{ inputs.id }}.gma"
+            "changenote" "${{ inputs.changelog }}"
+          }
+        EOF
+        cat workshop.vdf
 
     - name: Run SteamCMD
       shell: bash
