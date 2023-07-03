@@ -34,7 +34,7 @@ runs:
     - name: Run gma packer
       shell: bash
       run: |
-        lua5.3 gma.lua ${{ inputs.id }}.gma ${{ inputs.config }}
+        lua5.3 ${{ github.action_path }}/gma.lua ${{ inputs.id }}.gma ${{ inputs.config }}
 
     - name: Create .vdf file
       shell: bash
