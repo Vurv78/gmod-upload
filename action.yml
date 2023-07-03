@@ -19,32 +19,37 @@ runs:
   steps:
     - uses: actions/checkout@master
 
-    # Download SteamCMD
-    - run: |
-      sudo add-apt-repository multiverse
-      sudo dpkg --add-architecture i386
-      sudo apt update
-      sudo apt install lib32gcc-s1 steamcmd -y
-    shell: bash
-
-    # Download Lua 5.3
-    - run: sudo apt-get install lua5.3
+    - name: Download SteamCMD
       shell: bash
+      run: |
+        sudo add-apt-repository multiverse
+        sudo dpkg --add-architecture i386
+        sudo apt update
+        sudo apt install lib32gcc-s1 steamcmd -y
 
-    # Run .gma packer
-    - run: gma.lua ${{ inputs.id }}.gma ${{ inputs.config }}
+    - name: Download Lua 5.3
       shell: bash
+      run: |
+        sudo apt-get install lua5.3
 
-    # Create .vdf file
-    - run: echo \"workshopitem\" { \"appid\" \"4000\" \"publishedfileid\" \"${{ inputs.id }}\" \"contentfolder\" \"${{ inputs.id }}.gma\" \"changenote\" \"${{ inputs.changelog }}\" } > workshop.vdf
+    - name: Run gma packer
       shell: bash
+      run: |
+        gma.lua ${{ inputs.id }}.gma ${{ inputs.config }}
 
-    # Run SteamCMD
-    - run: steamcmd +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
+    - name: Create .vdf file
       shell: bash
+      run: |
+        echo \"workshopitem\" { \"appid\" \"4000\" \"publishedfileid\" \"${{ inputs.id }}\" \"contentfolder\" \"${{ inputs.id }}.gma\" \"changenote\" \"${{ inputs.changelog }}\" } > workshop.vdf
+
+    - name: Run SteamCMD
+      shell: bash
+      run: |
+        steamcmd +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
 
     - name: Print Errors
       if: failure()
+      shell: bash
       run: |
         echo /home/steam/Steam/logs/stderr.txt
         echo "$(cat /home/steam/Steam/logs/stderr.txt)"
@@ -56,4 +61,3 @@ runs:
         echo "$(cat /home/steam/Steam/workshopbuilds/depot_build_4000.log)"
 
         exit 1
-      shell: bash
