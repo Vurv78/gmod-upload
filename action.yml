@@ -43,7 +43,7 @@ runs:
           "workshopitem" {
             "appid" "4000"
             "publishedfileid" "${{ inputs.id }}"
-            "contentfolder" "${{ inputs.id }}.gma"
+            "contentfolder" "`pwd`/${{ inputs.id }}.gma"
             "changenote" "${{ inputs.changelog }}"
           }
         EOF
@@ -52,7 +52,7 @@ runs:
     - name: Run SteamCMD
       shell: bash
       run: |
-        ~/Steam/steamcmd.sh +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item workshop.vdf +quit
+        ~/Steam/steamcmd.sh +login $STEAM_USERNAME $STEAM_PASSWORD +workshop_build_item `pwd -P`/workshop.vdf +quit
 
     - name: Print Errors
       if: failure()
