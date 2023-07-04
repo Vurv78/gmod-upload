@@ -47,7 +47,6 @@ runs:
             "changenote" "${{ inputs.changelog }}"
           }
         EOF
-        cat workshop.vdf
 
     - name: Run SteamCMD
       shell: bash
