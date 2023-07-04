@@ -1,6 +1,10 @@
 name: "gmod-upload"
 description: "Packs a Garry's Mod addon to a .gma file and uploads to the Steam workshop"
 
+branding:
+  icon: box
+  color: gray-dark
+
 inputs:
   changelog:
     description: "Changelog"
