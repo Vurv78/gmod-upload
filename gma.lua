@@ -178,7 +178,12 @@ do
 						end
 					end
 
-					files[#files + 1] = { path = path, content = read(path) }
+					files[#files + 1] = {
+						path = normalized:sub(2), -- strip initial ./ part
+						content = read(path)
+					}
+
+					break
 				end
 			end
 
