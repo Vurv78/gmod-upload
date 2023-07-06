@@ -174,21 +174,21 @@ do
 					for _, block_pattern in ipairs(blocklist) do
 						if normalized:match(block_pattern) then
 							print("Blocked ", normalized)
-							goto skip
+							goto cont
 						end
 					end
 
 					files[#files + 1] = {
-						path = normalized:sub(2), -- strip initial ./ part
+						path = normalized:sub(3), -- strip initial ./ part
 						content = read(path)
 					}
 
-					break
+					goto cont
 				end
 			end
 
 			print("Warning: File " .. normalized .. " not whitelisted. Skipping..")
-			::skip::
+			::cont::
 		end
 
 		dir:close()
