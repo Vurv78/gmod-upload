@@ -26,6 +26,7 @@ runs:
     - name: Download SteamCMD
       shell: bash
       run: |
+        sudo apt-get update
         sudo apt-get install lib32gcc-s1
         mkdir ~/Steam
         curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf - -C ~/Steam
