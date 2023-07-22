@@ -86,7 +86,7 @@ local function decode(json --[[@param json string]]) ---@return table
 end
 
 local function wildcard2pattern(s --[[@param s string]])
-	return "^%./" .. s:gsub("%.", "%%."):gsub("%*", ".*")
+	return "^%./" .. s:gsub("%.", "%%."):gsub("%*", ".*") .. "$"
 end
 
 do
