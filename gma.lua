@@ -108,6 +108,7 @@ do
 		"scripts/vehicles/*.txt",
 		"resource/localization/*/*.properties",
 		"maps/*.bsp",
+		"maps/*.lmp",
 		"maps/*.nav",
 		"maps/*.ain",
 		"maps/thumb/*.png",
@@ -119,6 +120,7 @@ do
 		"materials/*.png",
 		"materials/*.jpg",
 		"materials/*.jpeg",
+		"materials/colorcorrection/*.raw",
 		"models/*.mdl",
 		"models/*.vtx",
 		"models/*.phy",
@@ -145,6 +147,7 @@ do
 		"gamemodes/*/content/materials/*.png",
 		"gamemodes/*/content/materials/*.jpg",
 		"gamemodes/*/content/materials/*.jpeg",
+		"gamemodes/*/content/materials/colorcorrection/*.raw",
 		"gamemodes/*/content/scenes/*.vcd",
 		"gamemodes/*/content/particles/*.pcf",
 		"gamemodes/*/content/resource/fonts/*.ttf",
@@ -157,6 +160,25 @@ do
 		"gamemodes/*/content/sound/*.wav",
 		"gamemodes/*/content/sound/*.mp3",
 		"gamemodes/*/content/sound/*.ogg",
+
+		-- Immutable version of `data` folder: https://github.com/Facepunch/gmad/commit/d55a4438a5bc0d2f25c02bda1e73e8034fdf736b
+		"data_static/*.txt",
+		"data_static/*.dat",
+		"data_static/*.json",
+		"data_static/*.xml",
+		"data_static/*.csv",
+		"data_static/*.dem",
+		"data_static/*.vcd",
+
+		"data_static/*.vtf",
+		"data_static/*.vmt",
+		"data_static/*.png",
+		"data_static/*.jpg",
+		"data_static/*.jpeg",
+
+		"data_static/*.mp3",
+		"data_static/*.wav",
+		"data_static/*.ogg",
 	}, wildcard2pattern)
 
 	if addon.ignore then -- if specified list of files to ignore.
